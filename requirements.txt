@@ -1,0 +1,11 @@
+Flask
+Flask-SQLAlchemy
+Flask-Login
+cmake
+dlib
+face-recognition
+numpy
+pandas
+pytz
+gunicorn
+opencv-python-headless

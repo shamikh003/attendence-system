@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - Students Solution</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="navbar">
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i> 
+        </button>
+        
+        <div class="navbar-logo">
+            <img src="{{ url_for('static', filename='css/logo.png') }}" alt="Logo">
+        </div>
+    </div>
+
+    <div class="sidebar" id="mySidebar">
+    <span class="close-btn" onclick="toggleMenu()">&times;</span>
+    
+    <h3>Menu</h3>
+    
+    <a href="{{ url_for('dashboard') }}">
+        <i class="fa-solid fa-chart-line"></i> Dashboard Overview
+    </a>
+    <a href="{{ url_for('download_report') }}">
+        <i class="fa-solid fa-file-csv"></i> Download Report
+    </a>
+    <a href="{{ url_for('index') }}" target="_blank">
+        <i class="fa-solid fa-camera"></i> Open Scanner
+    </a>
+    
+    <a href="{{ url_for('logout') }}" class="logout-btn">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </a>
+</div>
+
+    <div class="main-content">
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div style="background: white; padding: 15px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <h2 style="color: #D32F2F; margin-top: 0;">Attendance Details</h2>
+            
+            <div style="overflow-x: auto;"> 
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Dept</th>
+                            <th>In Time</th>
+                            <th>Out Time</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in summary %}
+                        <tr>
+                            <td><b>{{ row.name }}</b></td>
+                            <td>{{ row.department }}</td>
+                            <td style="color: green; font-weight: bold;">{{ row.in_time }}</td>
+                            <td style="color: #D32F2F; font-weight: bold;">{{ row.out_time }}</td>
+                            <td>
+                                {% if row.status == 'Present' %}
+                                    <span style="color: green;">● Present</span>
+                                {% else %}
+                                    <span style="color: red;">● Absent</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ url_for('delete_employee', id=row.id) }}" 
+                                   onclick="return confirm('Remove {{ row.name }}?');"
+                                   style="text-decoration: none; font-size: 1.2rem;">
+                                   🗑
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var sidebar = document.getElementById("mySidebar");
+            sidebar.classList.toggle("active");
+        }
+    </script>
+
+</body>
+</html>

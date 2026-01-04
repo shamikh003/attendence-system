@@ -1,0 +1,231 @@
+/* FULL COMPLETE CSS CODE */
+
+:root {
+    --primary-red: #D32F2F; /* Students Solution Red */
+    --glass-red: rgba(211, 47, 47, 0.85); /* Sidebar Glass Color */
+    --white-glass: rgba(255, 255, 255, 0.8); /* Navbar Glass Color */
+    --light-bg: #f4f6f9;
+    --text-dark: #333;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--light-bg);
+    margin: 0;
+    padding: 0;
+}
+
+/* --- NAVBAR (Header) --- */
+.navbar {
+    background: var(--white-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    
+    color: var(--primary-red);
+    padding: 5px 20px;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.menu-btn {
+    font-size: 20px; /* Font size fix */
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: var(--primary-red); 
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+
+.menu-btn:hover {
+    transform: scale(1.05);
+}
+
+.navbar-logo img {
+    height: 60px;
+    width: auto;
+    vertical-align: middle;
+}
+
+/* --- SIDEBAR (Menu) --- */
+.sidebar {
+    height: 100vh;
+    width: 250px;
+    
+    background: var(--glass-red);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+    
+    color: white;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 1001;
+    padding-top: 20px;
+    
+    /* Flexbox for Bottom Logout */
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar h3 {
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 15px;
+    margin-top: 40px;
+    font-weight: 400;
+}
+
+/* Links Styling */
+.sidebar a {
+    padding: 15px 25px;
+    display: flex;
+    align-items: center; 
+    gap: 15px;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: 0.3s;
+}
+
+.sidebar a i {
+    width: 25px;
+    text-align: center;
+}
+
+.sidebar a:hover {
+    background: rgba(255, 255, 255, 0.15);
+    padding-left: 30px;
+    color: #fff;
+    border-left: 4px solid #fff;
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+}
+.close-btn:hover { color: #fff; transform: rotate(90deg); transition: 0.3s; }
+
+/* Logout Button (Bottom) */
+.logout-btn {
+    margin-top: auto;
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.logout-btn:hover { background: #b71c1c !important; }
+
+
+/* --- MAIN CONTENT & TABLE --- */
+.main-content {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    margin-top: 10px;
+}
+
+th {
+    background-color: #f8f9fa;
+    color: var(--primary-red);
+    padding: 15px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+}
+
+td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    color: #555;
+}
+
+tr:hover { background-color: #fafafa; }
+
+/* Mobile Fix */
+@media (max-width: 600px) {
+    th, td { font-size: 12px; padding: 10px; }
+}
+
+/* --- ALERTS --- */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+.success { background-color: #d4edda; color: #155724; border-left: 5px solid #28a745; }
+.error { background-color: #f8d7da; color: #721c24; border-left: 5px solid #dc3545; }
+
+/* --- LOGIN PAGE --- */
+.login-container {
+    /* Screen ke beech mein lane ka formula */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    width: 90%; /* Mobile par screen se bahar na jaye */
+    max-width: 400px;
+    
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-top: 5px solid var(--primary-red);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2); /* Gehra saaya */
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* Input Fields Styling (Same as before) */
+.login-container input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background: #f9f9f9;
+}
+.btn-red {
+    background-color: var(--primary-red);
+    color: white;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 15px;
+}
+.btn-red:hover { background-color: #b71c1c; }
+
+/* --- SCANNER --- */
+.logo { width: 140px; margin: 30px auto 10px; display: block; }

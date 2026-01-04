@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scanner - Students Solution</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* --- GLOBAL RESET (Ye line zaroori hai mobile layout k liye) --- */
+        * { box-sizing: border-box; } 
+
+        body { 
+            text-align: center; 
+            font-family: 'Segoe UI', sans-serif; 
+            background: #f4f6f9; 
+            margin: 0; 
+            padding: 20px; /* Side mein gap (Safe Zone) */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center Horizontal */
+            min-height: 100vh;
+            width: 100%;
+            overflow-x: hidden; /* Horizontal Scroll ko zabardasti roko */
+        }
+        
+        .logo { 
+            width: 120px;
+            max-width: 40%; /* Mobile par logo 40% se bara na ho */
+            margin-top: 10px; 
+            height: auto;
+        }
+
+        h3 {
+            font-size: 1.4rem; /* Font thora chota kiya */
+            color: #333;
+            margin: 15px 0;
+            width: 100%;
+            padding: 0 10px;
+            word-wrap: break-word; /* Lambi line toot kar neeche aayegi (Fix) */
+            line-height: 1.4;
+        }
+
+        /* --- RESPONSIVE ROUND VIDEO --- */
+        #video { 
+            width: 70vw;       /* Screen ka 70% hissa */
+            max-width: 300px;  /* PC par limit */
+            aspect-ratio: 1 / 1; /* Hamesha Gol rahega */
+            
+            object-fit: cover;  
+            border: 5px solid #D32F2F; 
+            border-radius: 50%; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+            background: #000; /* Camera load hone se pehle black dikhe */
+        }
+
+        #status { 
+            margin-top: 20px; 
+            font-weight: bold; 
+            font-size: 1.1rem; 
+            width: 100%;
+            padding: 10px;
+            word-wrap: break-word; /* Error message screen se bahar nahi jayega */
+        }
+    </style>
+</head>
+<body>
+    
+    <img src="{{ url_for('static', filename='css/logo.png') }}" class="logo" alt="Students Solution">
+    
+    <h3>Face Attendance Scanner</h3>
+    
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas" style="display:none;"></canvas>
+    
+    <div id="status">Scanning...</div>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const statusDiv = document.getElementById('status');
+
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+            .then(stream => { video.srcObject = stream; })
+            .catch(err => { 
+                statusDiv.innerText = "Camera Error! Please allow permissions."; 
+                statusDiv.style.color = "red";
+            });
+
+        setInterval(() => {
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                
+                fetch('/process_scan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image: canvas.toDataURL('image/jpeg') })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    statusDiv.innerText = data.message;
+                    statusDiv.style.color = data.status === "success" ? "green" : "red";
+                })
+                .catch(err => console.error(err));
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
