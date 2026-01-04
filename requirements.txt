@@ -1,11 +1,10 @@
 Flask
-Flask-SQLAlchemy
-Flask-Login
+gunicorn
 cmake
 dlib
 face-recognition
 numpy
-pandas
-pytz
-gunicorn
 opencv-python-headless
+pandas
+psycopg2-binary
+SQLAlchemy
